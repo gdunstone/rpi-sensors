@@ -1,0 +1,45 @@
+source_dir: /opt/source
+soft_dir: /opt/apps
+build_dir: /opt/build
+home_dir: /home
+influxdb_database: chambers
+influxdb_username: writer
+
+packages_base:
+  - base-devel
+  - mlocate
+  - nano
+  - curl
+  - fish
+  - git
+  - gnupg
+  - htop
+  - iftop
+  - lua-filesystem
+  - lua
+  - ncdu
+  - parallel
+  - rsync
+  - screen
+  - tar
+  - tor
+  - tree
+  - zsh
+  - wget
+  - python
+  - python-pip
+  - ipython
+  - glances
+  - cmake
+  - boost
+
+pacman_pkgs:
+  - gdbm
+  - opencv
+  - python-cryptography
+  - python-pycparser
+  - openvpn
+  - exiv2
+  - create_ap
+  - wpa_supplicant
+  - wpa_actiond

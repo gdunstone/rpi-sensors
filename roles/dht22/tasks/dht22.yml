@@ -1,0 +1,37 @@
+- name: stop telegraf
+  service:
+    name: telegraf
+    state: stopped
+    daemon_reload: yes
+  ignore_errors: yes
+
+- name: copy dhtsensor program
+  copy:
+    src: dhtsensor
+    dest: /usr/local/bin/dhtsensor
+    mode: 0755
+
+- name: copy udev rules
+  copy:
+    src: 99-gpio.rules
+    dest: /etc/udev/rules.d/99-gpio.rules
+
+- name: "Update telegraf config."
+  blockinfile:
+    path: /etc/telegraf/telegraf.conf
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    block: |
+      # Read metrics from dht22
+      [[inputs.exec]]
+        commands = [
+          "/usr/local/bin/dhtsensor -pin {{ pin }}"
+        ]
+        timeout = "15s"
+        data_format = "influx"
+
+- name: restart telegraf service
+  service:
+    name: telegraf
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

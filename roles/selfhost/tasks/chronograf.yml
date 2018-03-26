@@ -1,0 +1,5 @@
+- name: (re)start the grafana-server service
+  service:
+    name: chronograf
+    state: restarted
+    enabled: yes

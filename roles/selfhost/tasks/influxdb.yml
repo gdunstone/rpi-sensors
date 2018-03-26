@@ -1,0 +1,61 @@
+- name: include influxdb vars
+  include_vars: influxdb_vars.yml
+  no_log: true
+
+- set_fact:
+    influx_execute: "/usr/bin/influx -username admin -password {{influxdb_admin_password}} -execute"
+  no_log: yes
+
+- name: template influxdb config
+  template:
+    src: templates/influxdb.conf.j2
+    dest: /etc/influxdb/influxdb.conf
+  register: influx_config
+
+- name: Start the InfluxDB service
+  service:
+    name: influxdb
+    state: started
+    enabled: yes
+  when: influx_config.changed
+
+- name: wait for InfluxDB service to fully start
+  pause: seconds=5
+  when: influx_config.changed
+
+- name: influx admin user
+  command: >
+    {{influx_execute}}
+    "CREATE USER admin WITH PASSWORD '{{influxdb_admin_password}}' WITH ALL PRIVILEGES"
+  ignore_errors: yes
+  no_log: yes
+
+- name: influx databases
+  command: >
+    {{influx_execute}}
+    'CREATE DATABASE {{item}}'
+  ignore_errors: yes
+  with_items: "{{influxdb_databases}}"
+
+- name: influx retention policy
+  command: >
+    {{influx_execute}}
+    'CREATE RETENTION POLICY one_year ON {{item}} DURATION 365d REPLICATION 1 DEFAULT'
+  ignore_errors: yes
+  with_items: "{{influxdb_databases}}"
+
+- name: influxdb users
+  command: >
+    {{influx_execute}}
+    "CREATE USER {{item.name}} WITH PASSWORD '{{item.password}}'"
+  ignore_errors: yes
+  with_items: "{{influxdb_users}}"
+
+- name: grants privs to users
+  command: >
+    {{influx_execute}}
+    'GRANT {{item.1.grant}} ON "{{item.1.name}}" TO "{{item.0.name}}"'
+  with_subelements:
+    - "{{influxdb_users}}"
+    - privs
+    - {skip_missing: True}

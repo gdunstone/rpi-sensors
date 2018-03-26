@@ -1,0 +1,9 @@
+influxdb_databases:
+  - telegraf
+
+influxdb_users:
+  - name: writer
+    password: "{{influxdb_write_password}}"
+    privs:
+      - name: telegraf
+        grant: ALL

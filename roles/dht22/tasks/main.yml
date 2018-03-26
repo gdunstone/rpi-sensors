@@ -1,0 +1,2 @@
+- include_tasks: dht22.yml
+  tags: dht22,sensors

@@ -1,0 +1,30 @@
+- name: include vault
+  include_vars: vault.yml
+  no_log: true
+  tags: always
+
+- name: include user list
+  include_vars: userlist.yml
+  no_log: true
+  tags: always
+
+- include_tasks: base_setup.yml
+  tags: base,setup, always
+
+- include_tasks: rpi_config.yml
+  tags: base,setup
+
+- include_tasks: users.yml
+  tags: base,users
+
+- include_tasks: updatepkgs.yml
+  tags: base
+
+- include_tasks: installpkgs.yml suite="Base" pkgs="{{packages_base}}"
+  tags: pkgs,base
+
+- include_tasks: installpkgs.yml suite="Dist" pkgs="{{pacman_pkgs}}"
+  tags: pkgs,dist
+
+- include_tasks: telegraf.yml
+  tags: telegraf,metrics

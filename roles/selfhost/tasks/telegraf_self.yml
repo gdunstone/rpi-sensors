@@ -1,0 +1,24 @@
+- name: change target host for telegraf
+  lineinfile:
+    regexp: "^.*urls = "
+    line: "urls = [\"http://localhost:8086\"] # required"
+  path: /etc/telegraf/telegraf.conf
+
+- name: change target password
+  lineinfile:
+    regexp: "^.*password = "
+    line: "  password = \"{{influxdb_write_password}}\""
+  path: /etc/telegraf/telegraf.conf
+
+- name: change target database
+  lineinfile:
+    regexp: "^.*database = "
+    line: "  database = \"telegraf\""
+  path: /etc/telegraf/telegraf.conf
+
+- name: restart telegraf service
+  service:
+    name: telegraf
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

@@ -1,0 +1,12 @@
+- name: template kapacitor config
+  template:
+    src: kapacitor.conf.j2
+    dest: /etc/kapacitor/kapacitor.conf
+  register: config
+
+- name: (re)start the Kapacitor service
+  service:
+    name: kapacitor
+    state: restarted
+    enabled: yes
+  when: config.changed or app.changed

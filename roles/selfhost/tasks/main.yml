@@ -1,0 +1,52 @@
+- name: create influxdb admin password
+  set_fact:
+    influxdb_admin_password: "{{ lookup('password', 'roles/selfhost/files/influxdb_admin_password.txt chars=ascii_letters') }}"
+  tags: always
+
+- name: create influxdb write password
+  set_fact:
+    influxdb_write_password: "{{ lookup('password', 'roles/selfhost/files/influxdb_write_password.txt chars=ascii_letters') }}"
+  tags: always
+
+- include_role:
+    name: common
+    tasks_from: aur.yml
+  vars:
+    pkg_name: influxdb-bin
+  tags: influxdb,influxdb_install,influx,db,tsdb,self
+
+- include_tasks: influxdb.yml
+  tags: influxdb,influxdb_conf,influx,db,tsdb,self
+
+
+- include_role:
+    name: common
+    tasks_from: aur.yml
+  vars:
+    pkg_name: kapacitor-bin
+  tags: kapacitor,kapacitor_install
+
+- include_tasks: kapacitor.yml
+  tags: kapacitor,kapacitor_conf,self
+
+
+- include_role:
+    name: common
+    tasks_from: aur.yml
+  vars:
+    pkg_name: chronograf-bin
+  tags: chronograf,chronograf_install
+
+- include_tasks: chronograf.yml
+  tags: chronograf,chronograf_conf,self
+
+- name: Upload password files
+  copy:
+    path: "/home/{{item}}"
+  with_items:
+    - "influxdb_admin_password.txt"
+    - "influxdb_write_password.txt"
+    - "chronograf.txt"
+
+- include_tasks: telegraf_self
+  tags: telegraf,self,telegraf_self
