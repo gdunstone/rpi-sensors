@@ -4,9 +4,9 @@
     name: openvpn
     state: present
 
-- name: upload rpi-sshsign
-  copy:
-    src: rpi-sshsign
+- name: download rpi-sshsign
+  get_url:
+    url: "https://github.com/borevitzlab/go-eyepi/releases/download/{{version}}/rpi-sshsign"
     dest: /usr/bin/rpi-sshsign
     mode: 0755
 
@@ -41,7 +41,6 @@
   get_url:
     url: "https://gist.githubusercontent.com/gdunstone/e2d009fd6169c1b675bf9be6277f13d2/raw/fe8796b70f1068c332a0e97d5d781659bca3b983/vpn.conf"
     dest: /etc/openvpn/client/vpn.conf
-
 
 - name: upload openvpn-client service
   copy:

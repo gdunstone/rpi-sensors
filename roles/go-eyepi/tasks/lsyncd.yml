@@ -1,4 +1,8 @@
-- include_tasks: tasks/aur.yml pkg_name="lsyncd"
+- include_role:
+    name: common
+    tasks_from: aur.yml
+  vars:
+    pkg_name: lsyncd
 
 - name: create lsyncd config directory
   file:

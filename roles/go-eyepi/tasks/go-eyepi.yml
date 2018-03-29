@@ -7,9 +7,9 @@
     masked: no
   ignore_errors: yes
 
-- name: copy go-eyepi binary
-  copy:
-    src: go-eyepi
+- name: download go-eyepi binary
+  get_url:
+    url: "https://github.com/borevitzlab/go-eyepi/releases/download/{{version}}/go-eyepi"
     dest: /usr/bin/go-eyepi
     mode: 0755
 

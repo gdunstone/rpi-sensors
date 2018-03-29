@@ -7,8 +7,8 @@
 
 - name: copy dhtsensor program
   copy:
-    src: dhtsensor
-    dest: /usr/local/bin/dhtsensor
+    src: dht-sensor
+    dest: /usr/local/bin/dht-sensor
     mode: 0755
 
 - name: copy udev rules
@@ -24,7 +24,7 @@
       # Read metrics from dht22
       [[inputs.exec]]
         commands = [
-          "/usr/local/bin/dhtsensor -pin {{ pin }}"
+          "/usr/local/bin/dht-sensor -pin {{ pin }}"
         ]
         timeout = "15s"
         data_format = "influx"

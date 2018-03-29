@@ -1,0 +1,22 @@
+- set_fact:
+    i2c_modules:
+      - i2c-dev
+      - i2c-bcm2708
+
+- name: "modprobe {{ item }}"
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ i2c_modules }}"
+
+- name: add lines to modules.load.d/i2c.conf to autoload modules
+  lineinfile:
+    line: "{{ item }}"
+    create: yes
+  with_items: "{{ i2c_modules }}"
+
+- name: copy i2csensor program
+  copy:
+    src: i2c-sensor
+    dest: /usr/local/bin/i2c-sensor
+    mode: 0755

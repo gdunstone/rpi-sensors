@@ -6,7 +6,10 @@
   no_log: yes
   changed_when: True
 
-- debug: msg="{{ansible_machine_id}}:{{check_serial.stdout}} using name {{inventory_hostname}}"
+- set_fact:
+    inventory_cpuserial: "{{check_serial.stdout}}"
+
+- debug: msg="{{ansible_machine_id}}:{{inventory_cpuserial}} using name {{inventory_hostname}}"
 
 - name: Set hostname
   hostname: name="{{inventory_hostname}}"
@@ -66,12 +69,29 @@
     value: 1
     sysctl_set: yes
 
-- name: Create source_dir
+- name: create source_dir
   file:
     path: "{{source_dir}}"
     state: directory
 
-- name: Create build_dir
+- name: create build_dir
   file:
     path: "{{build_dir}}"
     state: directory
+
+- name: reboot service upload
+  copy:
+    src: "reboot_schedule.service"
+    dest: "/etc/systemd/system/reboot_schedule.service"
+
+- name: reboot timer template
+  template:
+    src: "reboot_schedule.timer.j2"
+    dest: "/etc/systemd/system/reboot_schedule.timer"
+
+- name: enable/start the timer
+  systemd:
+    name: eyepi-capture.service
+    daemon_reload: yes
+    enabled: yes
+    masked: no

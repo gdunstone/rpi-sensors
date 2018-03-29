@@ -4,6 +4,7 @@ build_dir: /opt/build
 home_dir: /home
 influxdb_database: chambers
 influxdb_username: writer
+reboot_calendar_time: "03:03:00"
 
 packages_base:
   - base-devel
@@ -43,3 +44,4 @@ pacman_pkgs:
   - create_ap
   - wpa_supplicant
   - wpa_actiond
+  - i2c-tools

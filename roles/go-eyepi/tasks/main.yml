@@ -1,8 +1,5 @@
 - include_tasks: sftp_key.yml
-  tags: network,sftp
-
-- include_tasks: updatepkgs.yml
-  tags: base
+  tags: network,sftp,api
 
 - include_tasks: openvpn.yml vpn_config_file="{{vpn_conf}}"
   tags: network,vpn
@@ -31,4 +28,4 @@
   tags: modules,eyepi
 
 - include_tasks: lsyncd.yml
-  tags: network,lsyncd
+  tags: network,lsyncd,sftp

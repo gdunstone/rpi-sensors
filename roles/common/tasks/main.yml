@@ -26,5 +26,8 @@
 - include_tasks: installpkgs.yml suite="Dist" pkgs="{{pacman_pkgs}}"
   tags: pkgs,dist
 
+- include_tasks: i2csetup.yml
+  tags: i2c,sensors
+
 - include_tasks: telegraf.yml
   tags: telegraf,metrics
