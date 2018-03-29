@@ -5,9 +5,9 @@
     daemon_reload: yes
   ignore_errors: yes
 
-- name: copy rainmeter program
-  copy:
-    src: rain-sensor
+- name: download rainmeter program
+  get_url:
+    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.1-2/rain-sensor
     dest: /usr/local/bin/rain-sensor
     mode: 0755
 

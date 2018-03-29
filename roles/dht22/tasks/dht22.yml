@@ -5,9 +5,9 @@
     daemon_reload: yes
   ignore_errors: yes
 
-- name: copy dhtsensor program
-  copy:
-    src: dht-sensor
+- name: download dhtsensor program
+  get_url:
+    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.1-2/dht-sensor
     dest: /usr/local/bin/dht-sensor
     mode: 0755
 
