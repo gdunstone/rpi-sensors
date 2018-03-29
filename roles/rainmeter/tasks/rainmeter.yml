@@ -5,23 +5,23 @@
     daemon_reload: yes
   ignore_errors: yes
 
-- name: copy dhtsensor program
+- name: copy rainmeter program
   copy:
-    src: dht-sensor
-    dest: /usr/local/bin/dht-sensor
+    src: rain-sensor
+    dest: /usr/local/bin/rain-sensor
     mode: 0755
 
 - name: "Update telegraf config."
   blockinfile:
     path: /etc/telegraf/telegraf.conf
-    marker: "# {mark} DHT22 ANSIBLE MANAGED BLOCK"
+    marker: "# {mark} RAINMETER ANSIBLE MANAGED BLOCK"
     block: |
-      # Read metrics from dht22
+      # Read metrics from rain sensor
       [[inputs.exec]]
         commands = [
-          "/usr/local/bin/dht-sensor -pin {{ pin }}"
+          "/usr/local/bin/rain-sensor -pin {{ pin }}"
         ]
-        timeout = "15s"
+        timeout = "30s"
         data_format = "influx"
 
 - name: restart telegraf service

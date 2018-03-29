@@ -95,7 +95,6 @@ func main() {
 	dur := time.Since(start)
 
 	values["mmPerHour"] = mmPerBucketTip / (dur.Seconds() / 60)
-
 	formatOutput(stype, values)
 
 }

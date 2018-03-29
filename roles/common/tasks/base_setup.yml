@@ -95,3 +95,8 @@
     daemon_reload: yes
     enabled: yes
     masked: no
+
+- name: copy udev rules
+  copy:
+    src: 99-gpio.rules
+    dest: /etc/udev/rules.d/99-gpio.rules

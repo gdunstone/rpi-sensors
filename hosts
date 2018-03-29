@@ -1,5 +1,5 @@
 [eyepi]
-#Acacia02 ansible_host=10.9.0.100 dslrs='{"Cam01": "bd73910b59f148e2ba5f25bfe8f5212e"}'
+Acacia02 ansible_host=10.9.0.100 dslrs='{"Cam01": "bd73910b59f148e2ba5f25bfe8f5212e"}'
 #GC02 ansible_host=10.9.0.2
 GC03 ansible_host=10.9.0.3 dslrs='{"GC03L": "b0079691de474678b5e6ddd8f6363c7a", "GC03R": "cd6acfa090894f9bbe7b21037a49389b"}'
 #GC04 ansible_host=10.9.0.4
@@ -10,7 +10,7 @@ GC05 ansible_host=10.9.0.5 dslrs='{"GC05L": "969bb172926a4a36ad7e37f9ee488773", 
 
 [dht22]
 #TEST ansible_host=192.168.1.36
-#Acacia02 ansible_host=10.9.0.100
+Acacia02 ansible_host=10.9.0.100
 #GC02 ansible_host=10.9.0.2
 GC03 ansible_host=10.9.0.3
 #GC04 ansible_host=10.9.0.4
@@ -18,6 +18,9 @@ GC05 ansible_host=10.9.0.5
 #GC35 ansible_host=10.9.0.35
 #GC36 ansible_host=10.9.0.36
 #GC37 ansible_host=10.9.0.37
+
+[rainmeter]
+#Acacia02 ansible_host=10.9.0.100
 
 [selfhost]
 #TEST ansible_host=192.168.1.36

@@ -9,7 +9,7 @@
   tags: always
 
 - include_tasks: base_setup.yml
-  tags: base,setup, always
+  tags: base,setup,always
 
 - include_tasks: rpi_config.yml
   tags: base,setup
@@ -18,16 +18,16 @@
   tags: base,users
 
 - include_tasks: updatepkgs.yml
-  tags: base
+  tags: base,pkgs
 
 - include_tasks: installpkgs.yml suite="Base" pkgs="{{packages_base}}"
-  tags: pkgs,base
+  tags: base,pkgs
 
 - include_tasks: installpkgs.yml suite="Dist" pkgs="{{pacman_pkgs}}"
-  tags: pkgs,dist
+  tags: base,pkgs,dist
 
 - include_tasks: i2csetup.yml
-  tags: i2c,sensors
+  tags: base,i2c,sensors
 
 - include_tasks: telegraf.yml
   tags: telegraf,metrics
