@@ -22,7 +22,7 @@ func init() {
 	flag.BoolVar(&boostPerfFlag, "boost", false, "boost performance")
 }
 
-func formatOutput(sensor_type string, values map[string]interface{}) {
+func formatOutput(sensorType string, values map[string]interface{}) {
 
 	keyvaluepairs := make([]string, 0)
 
@@ -39,7 +39,7 @@ func formatOutput(sensor_type string, values map[string]interface{}) {
 		}
 	}
 	csv := strings.Join(keyvaluepairs, ",")
-	str := fmt.Sprintf("%s %s", sensor_type, csv)
+	str := fmt.Sprintf("%s %s", sensorType, csv)
 	// add timestamp
 	str = fmt.Sprintf("%s %d", str, time.Now().UnixNano())
 	fmt.Fprintln(os.Stdout, str)

@@ -1,0 +1,47 @@
+language: go
+
+go:
+  - "1.10"
+
+install: true
+
+#dont email me i dont like spam
+notifications:
+  email: false
+
+before_script:
+  - go get github.com/d2r2/go-dht
+  - go get github.com/aquarat/embd
+  - go get periph.io/x/periph/.
+  - go get github.com/golang/lint/golint
+  - go get github.com/stretchr/testify
+  - go get honnef.co/go/tools/cmd/megacheck
+
+script:
+  - golint -set_exit_status ./*-sensor
+  - go test ./*-sensor
+  - go vet ./*-sensor
+  # dont build this because it must
+  # - go build -o ./dht-sensor/dht-sensor ./dht-sensor/dht-sensor
+  - go build -o ./rain-sensor/rain-sensor ./rain-sensor/rain-sensor
+  - go build -o ./i2c-sensor/i2c-sensor ./i2c-sensor/i2c-sensor
+  - "echo \"influxdb_password: changeme\" > roles/common/vars/vault.yml"
+  - tar zfc ansible.tar.gz roles hosts main.yml
+
+before_deploy:
+  - git config --local user.name "gdunstone"
+  - git config --local user.email "freedom.2.the.leetle.people@gmail.com"
+
+deploy:
+  provider: releases
+  api_key: $TOKEN
+  file_glob: true
+  file:
+    - "dht-sensor/dht-sensor"
+    - "rain-sensor/rain-sensor"
+    - "i2c-sensor/i2c-sensor"
+    - "ansible.tar.gz"
+  name: Release $TRAVIS_TAG
+  skip_cleanup: true
+  on:
+    tags: true

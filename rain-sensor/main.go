@@ -23,8 +23,7 @@ func init() {
 	flag.IntVar(&pin, "pin", 17, "pin that the rainmeter is connected to")
 }
 
-func formatOutput(sensor_type string, values map[string]interface{}) {
-
+func formatOutput(sensorType string, values map[string]interface{}) {
 	keyvaluepairs := make([]string, 0)
 
 	for key, val := range values {
@@ -40,7 +39,7 @@ func formatOutput(sensor_type string, values map[string]interface{}) {
 		}
 	}
 	csv := strings.Join(keyvaluepairs, ",")
-	str := fmt.Sprintf("%s %s", sensor_type, csv)
+	str := fmt.Sprintf("%s %s", sensorType, csv)
 	// add timestamp
 	str = fmt.Sprintf("%s %d", str, time.Now().UnixNano())
 	fmt.Fprintln(os.Stdout, str)
@@ -68,14 +67,13 @@ func main() {
 	values := make(map[string]interface{})
 	values["mmPerHour"] = 0
 
-
 	for {
 		detected := p.WaitForEdge(time.Duration(10) * time.Second)
 		read := p.Read()
-		if !detected{
+		if !detected {
 			formatOutput(stype, values)
 		}
-		if read == gpio.High{
+		if read == gpio.High {
 			break
 		}
 	}
@@ -84,10 +82,10 @@ func main() {
 	for {
 		detected := p.WaitForEdge(time.Duration(10) * time.Second)
 		read := p.Read()
-		if !detected{
+		if !detected {
 			formatOutput(stype, values)
 		}
-		if read == gpio.High{
+		if read == gpio.High {
 			break
 		}
 	}
