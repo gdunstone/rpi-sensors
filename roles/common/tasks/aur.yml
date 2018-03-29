@@ -25,7 +25,7 @@
   when: version_check_result.changed
   get_url: >
     url='https://aur.archlinux.org{{ api_info.json.results.0.URLPath }}'
-    dest='{{source_dir}}/{{pkg_name}}'
+    dest='{{source_dir}}/{{pkg_name}}{{api_info.json.results.0.Version}}'
   register: aur_tarball
 
 - name: AUR | {{ pkg_name }} | upload tarball to host and extract it
