@@ -1,0 +1,30 @@
+- include_role:
+    name: common
+    tasks_from: sftp_key.yml
+  tags: network,sftp,api
+
+# - include_tasks: wireless.yml interface="wlan0"
+#   tags: network,wireless
+#   when: wireless_keys is defined
+
+- include_tasks: gphoto2.yml version=HEAD
+  tags: modules,gphoto2
+  when: build_gphoto2 is defined and build_gphoto2 == True
+
+- include_role:
+    name: common
+    tasks_from: installpkgs.yml
+  vars:
+    suite: "gphoto2/libgphoto2"
+    pkgs: "libgphoto2 gphoto2"
+  tags: pkgs, provision
+  when: build_gphoto2 is not defined or build_gphoto2 == False
+
+# - include_tasks: python_modules.yml modules="{{python3_pkgs}}" python_version=3
+#   tags: pkgs,python
+
+- include_tasks: py-eyepi.yml
+  tags: modules,eyepi
+
+- include_tasks: lsyncd.yml
+  tags: network,lsyncd,sftp

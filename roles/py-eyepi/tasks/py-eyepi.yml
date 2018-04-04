@@ -1,0 +1,58 @@
+- name: update package cache
+  pacman:
+    update_cache: yes
+
+# these need to be installed separately to work.
+- name: install packages
+  pacman:
+    name: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - exiv2
+    - python-numpy
+    - hdf5
+    - opencv
+
+- name: Install python packages
+  pip: "name={{item}} executable='pip' state=latest"
+  with_items:
+    # - py3exiv2
+    - py-eyepi
+
+- name: stop eyepi capture service
+  systemd:
+    name: eyepi-capture.service
+    daemon_reload: yes
+    state: stopped
+    enabled: yes
+    masked: no
+  ignore_errors: yes
+
+- name: create py-eyepi config directory
+  file:
+    dest: /etc/eyepi
+    state: directory
+
+- name: template out eyepi.conf
+  template:
+    src: eyepi.conf.j2
+    dest: /etc/eyepi/eyepi.conf
+
+- name: copy py-eyepi logging.ini
+  copy:
+    src: logging.ini
+    dest: /etc/eyepi/logging.ini
+
+- name: copy py-eyepi systemd service file
+  copy:
+    src: eyepi-capture.service
+    dest: /etc/systemd/system/eyepi-capture.service
+
+- name: enable eyepi capture service
+  systemd:
+    name: eyepi-capture.service
+    daemon_reload: yes
+    state: restarted
+    enabled: yes
+    masked: no

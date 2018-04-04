@@ -1,0 +1,7 @@
+- include_role:
+    name: common
+    tasks_from: sftp_key.yml
+  tags: network,sftp,api
+
+- include_tasks: openvpn.yml vpn_config_file="{{vpn_conf}}"
+  tags: network,vpn

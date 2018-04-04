@@ -10,6 +10,14 @@
   roles:
     - rainmeter
 
-- hosts: eyepi
+- hosts: go-eyepi
   roles:
-    - eyepi
+    - go-eyepi
+
+- hosts: py-eyepi
+  roles:
+    - py-eyepi
+
+- hosts: openvpn
+  roles:
+    - openvpn

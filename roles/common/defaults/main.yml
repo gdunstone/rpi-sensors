@@ -34,11 +34,13 @@ packages_base:
   - cmake
   - boost
 
+
 pacman_pkgs:
   - gdbm
   - opencv
   - python-cryptography
   - python-pycparser
+  - python-dateutil
   - openvpn
   - exiv2
   - create_ap

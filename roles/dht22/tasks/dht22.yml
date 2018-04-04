@@ -11,7 +11,7 @@
     dest: /usr/local/bin/dht-sensor
     mode: 0755
 
-- name: "Update telegraf config."
+- name: update telegraf config
   blockinfile:
     path: /etc/telegraf/telegraf.conf
     marker: "# {mark} DHT22 ANSIBLE MANAGED BLOCK"
