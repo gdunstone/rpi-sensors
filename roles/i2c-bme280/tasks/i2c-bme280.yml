@@ -1,0 +1,32 @@
+- name: stop telegraf
+  service:
+    name: telegraf
+    state: stopped
+    daemon_reload: yes
+  ignore_errors: yes
+
+- name: download dhtsensor program
+  get_url:
+    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.2/i2c-sensor
+    dest: /usr/local/bin/dht-sensor
+    mode: 0755
+
+- name: update telegraf config
+  blockinfile:
+    path: /etc/telegraf/telegraf.conf
+    marker: "# {mark} BME280 ANSIBLE MANAGED BLOCK"
+    block: |
+      # Read metrics from bme280
+      [[inputs.exec]]
+        commands = [
+          "/usr/local/bin/i2c-sensor -sensor-type bme280"
+        ]
+        timeout = "15s"
+        data_format = "influx"
+
+- name: restart telegraf service
+  service:
+    name: telegraf
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

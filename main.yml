@@ -6,6 +6,10 @@
   roles:
     - dht22
 
+- hosts: bme280
+  roles:
+    - bme280
+
 - hosts: rainmeter
   roles:
     - rainmeter

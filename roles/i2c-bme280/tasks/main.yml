@@ -1,0 +1,2 @@
+- include_tasks: bme280.yml
+  tags: bme280,sensors
