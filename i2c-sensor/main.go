@@ -14,6 +14,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"math"
 )
 
 var (
@@ -82,11 +83,19 @@ func main() {
 			panic(err)
 		}
 
-		values["temperature"] = sensor.Temperature(measurements)
+		temperature64 := sensor.Temperature(measurements)
+		humidity64 := sensor.Humidity(measurements)
 
+		values["temperature"] = temperature64
+		values["humidity"] = humidity64
 		values["pressure"] = sensor.Pressure(measurements)
 
-		values["humidity"] = sensor.Humidity(measurements)
+    	es := 0.6108 * math.Exp(17.27*temperature64/(temperature64+237.3))
+    	ea := humidity64 / 100 * es
+
+    	// this equation returns a negative value (in kPa), which while technically correct,
+    	// is invalid in this case because we are talking about a deficit.
+    	values["vpd"] = (ea - es) * -1
 
 	case "bmp085":
 		sensor := bmp085.New(bus)

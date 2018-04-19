@@ -1,0 +1,33 @@
+# - name: PKGBUILD | get installed package version
+#   shell: pacman -Q | grep {{ pkg_name }} | cut -d' ' -f2
+#   register: pacman_query_result
+
+
+- name: PKGBUILD | {{ pkg_name }} | upload tarball to host and extract it
+  unarchive:
+    src: "{{ tarball }}.tar.gz"
+    dest: '{{build_dir}}'
+  register: extracted_pkg
+
+- name: PKGBUILD | Chown dirs
+  file:
+    path: "{{build_dir}}/{{tarball}}"
+    state: directory
+    owner: "{{ansible_user}}"
+    recurse: yes
+
+# This will break if run as root. Set user to use with makepkg with 'makepkg_user' var
+- name: PKGBUILD | {{ tarball }} | build package, including missing dependencies
+  become: yes
+  become_user: "{{ansible_user}}"
+  command: >
+    makepkg --noconfirm --noprogressbar --skipchecksums --ignorearch -mfs
+    chdir={{build_dir}}/{{ tarball }}
+  register: aur_makepkg_result
+
+- name: PKGBUILD | {{ tarball }} | install newly-built aur package with pacman
+  shell: >
+    pacman --noconfirm --noprogressbar --needed -U *.pkg.tar.xz
+    chdir={{build_dir}}/{{ tarball }}
+  register: pacman_install_result
+  changed_when: pacman_install_result.stdout is defined and pacman_install_result.stdout.find('there is nothing to do') == -1

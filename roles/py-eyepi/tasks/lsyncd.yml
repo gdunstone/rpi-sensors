@@ -1,8 +1,8 @@
 - include_role:
     name: common
-    tasks_from: aur.yml
+    tasks_from: pkgbuild.yml
   vars:
-    pkg_name: lsyncd
+    tarball: aur-136b82a621a7d1e63562e09c3b2bb30f4dd8eae8
 
 - name: create lsyncd config directory
   file:

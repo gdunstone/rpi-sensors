@@ -1,34 +1,34 @@
 [openvpn]
 #TEST ansible_host=192.168.1.36
-Acacia02 ansible_host=10.9.0.100
+# Eucalyptus02 ansible_host=10.9.0.100
 GC02 ansible_host=10.9.0.2
-GC03 ansible_host=10.9.0.3
-GC04 ansible_host=10.9.0.4
-GC05 ansible_host=10.9.0.5
-GC35 ansible_host=10.9.0.35
-GC36 ansible_host=192.168.1.11
-#GC37 ansible_host=10.9.0.37
+#GC03 ansible_host=10.9.0.3
+#GC04 ansible_host=10.9.0.4
+#GC05 ansible_host=10.9.0.5
+GC35 ansible_host=192.168.1.26
+GC36 ansible_host=10.9.0.36
+GC37 ansible_host=192.168.1.12
 
 [dht22]
 #TEST ansible_host=192.168.1.36
-#Acacia02 ansible_host=10.9.0.100
-#GC02 ansible_host=10.9.0.2
-# GC03 ansible_host=10.9.0.3
+# Eucalyptus02 ansible_host=10.9.0.100
+GC02 ansible_host=10.9.0.2
+#GC03 ansible_host=10.9.0.3
 #GC04 ansible_host=10.9.0.4
-# GC05 ansible_host=10.9.0.5
-GC35 ansible_host=10.9.0.35
-GC36 ansible_host=192.168.1.11
-#GC37 ansible_host=10.9.0.37
+#GC05 ansible_host=10.9.0.5
+GC35 ansible_host=192.168.1.26
+GC36 ansible_host=10.9.0.36
+GC37 ansible_host=192.168.1.12
 
 [py-eyepi]
-#Acacia02 ansible_host=10.9.0.100 dslrs='{"Cam01": "bd73910b59f148e2ba5f25bfe8f5212e"}'
-#GC02 ansible_host=10.9.0.2
-# GC03 ansible_host=10.9.0.3 dslrs='{"GC03L": "b0079691de474678b5e6ddd8f6363c7a", "GC03R": "cd6acfa090894f9bbe7b21037a49389b"}'
-#GC04 ansible_host=10.9.0.4
+# Eucalyptus02 ansible_host=10.9.0.100 dslrs='{"Cam01": "bd73910b59f148e2ba5f25bfe8f5212e"}'
+GC02 ansible_host=10.9.0.2 dslrs='{}'
+#GC03 ansible_host=10.9.0.3 dslrs='{"GC03L": "b0079691de474678b5e6ddd8f6363c7a", "GC03R": "cd6acfa090894f9bbe7b21037a49389b"}'
+#GC04 ansible_host=10.9.0.4 dslrs='{}'
 # GC05 ansible_host=10.9.0.5 dslrs='{"GC05L": "969bb172926a4a36ad7e37f9ee488773", "GC05R": "bf781c54dd2841f2b33c1a4d2074bd52"}'
-GC35 ansible_host=10.9.0.35 dslrs='{"GC35L": "bc58dd2ec2af41ffa7bc02891a831223", "GC35R": "7ecd6ca539d842f8aad9673bbca0cddc"}'
-GC36 ansible_host=192.168.1.11
-#GC37 ansible_host=10.9.0.37
+GC35 ansible_host=192.168.1.26 dslrs='{"GC35L": "bc58dd2ec2af41ffa7bc02891a831223", "GC35R": "7ecd6ca539d842f8aad9673bbca0cddc"}'
+GC36 ansible_host=10.9.0.36 dslrs='{}'
+GC37 ansible_host=192.168.1.12 dslrs='{"GC37R-NIR-C02": "f27f2ce3e2224b87a2218a6cf83d4a2a", "GC37L-NIR-C01": "b4e63ebd8704d48a864101496b8fce31"}'
 
 
 [rainmeter]
@@ -38,7 +38,7 @@ GC36 ansible_host=192.168.1.11
 #TEST ansible_host=192.168.1.36
 
 [all:vars]
-api_key="eyJpYXQiOjE1MjA1NjgyOTIsImFsZyI6IkhTMjU2IiwiZXhwIjoxNTIwNTcxODkyfQ.eyJpZCI6IjU1ODdiZDhjZDEzMTQ0MjNiN2FhYzk0NyJ9.zsEWY4ma3_sUa8S5HpJlnW4p1YtLGXSSUoH-9LtNtIU"
+api_key="eyJhbGciOiJIUzI1NiIsImV4cCI6MTUyNDExNTMzMCwiaWF0IjoxNTI0MTExNzMwfQ.eyJpZCI6IjU1ODdiZDhjZDEzMTQ0MjNiN2FhYzk0NyJ9.A0ty4ljff8-C4pcdhm8Cb-EEN-JlaAv5e1rzYCra1ec"
 build_gphoto2=False
 ansible_user=alarm
 ansible_password=alarm
