@@ -11,18 +11,20 @@ import (
 	"github.com/aquarat/embd/sensor/bmp180"
 	"github.com/aquarat/embd/sensor/l3gd20"
 	"github.com/aquarat/embd/sensor/lsm303"
+	"math"
 	"os"
 	"strings"
 	"time"
-	"math"
 )
 
 var (
-	stype string
+	stype  string
+	pullUp bool
 )
 
 func init() {
 	flag.StringVar(&stype, "sensor-type", "bmp180", "sensor type (bh1750fvi, bme280, bmp085, bmp180, l3gd20, lsm303)")
+	flag.BoolVar(&pullUp, "pull-up", false, "use pull-up address, for when SDO is pulled up (connected to vddio)")
 }
 
 func formatOutput(sensorType string, values map[string]interface{}) {
@@ -74,7 +76,15 @@ func main() {
 		}
 		values["altitude"] = altitude
 	case "bme280":
-		sensor, err := bme280.New(bus, 0x77)
+		// by default pull SDO down.
+		// if using GY-BME280, connect to 3v3 ONLY! not 5v.
+		var addr byte
+		addr = 0x76
+		if pullUp {
+			addr = 0x77
+		}
+
+		sensor, err := bme280.New(bus, addr)
 		if err != nil {
 			panic(err)
 		}
@@ -90,13 +100,11 @@ func main() {
 		values["humidity"] = humidity64
 		values["pressure"] = sensor.Pressure(measurements)
 
-    	es := 0.6108 * math.Exp(17.27*temperature64/(temperature64+237.3))
-    	ea := humidity64 / 100 * es
-
-    	// this equation returns a negative value (in kPa), which while technically correct,
-    	// is invalid in this case because we are talking about a deficit.
-    	values["vpd"] = (ea - es) * -1
-
+		es := 0.6108 * math.Exp(17.27*temperature64/(temperature64+237.3))
+		ea := humidity64 / 100 * es
+		// this equation returns a negative value (in kPa), which while technically correct,
+		// is invalid in this case because we are talking about a deficit.
+		values["vpd"] = (ea - es) * -1
 	case "bmp085":
 		sensor := bmp085.New(bus)
 

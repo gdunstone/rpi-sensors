@@ -7,7 +7,7 @@
 
 - name: download dhtsensor program
   get_url:
-    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.1-2/dht-sensor
+    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.2.1/dht-sensor
     dest: /usr/local/bin/dht-sensor
     mode: 0755
 
