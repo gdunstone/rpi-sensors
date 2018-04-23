@@ -3,11 +3,11 @@
       - i2c-dev
       - i2c-bcm2708
 
-- name: "modprobe {{ item }}"
-  modprobe:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ i2c_modules }}"
+# - name: "modprobe {{ item }}"
+#   modprobe:
+#     name: "{{ item }}"
+#     state: present
+#   with_items: "{{ i2c_modules }}"
 
 - name: add lines to modules.load.d/i2c.conf to autoload modules
   lineinfile:
@@ -16,3 +16,7 @@
     path: /etc/modules-load.d/i2c.conf
   with_items: "{{ i2c_modules }}"
 
+- name: copy udev rules
+  copy:
+    src: 98-i2c.rules
+    dest: /etc/udev/rules.d/98-i2c.rules

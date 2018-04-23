@@ -7,8 +7,8 @@
 
 - name: download i2c-sensor program
   get_url:
-    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.2.2/i2c-sensor
-    dest: /usr/local/bin/dht-sensor
+    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.2.3/i2c-sensor
+    dest: /usr/local/bin/i2c-sensor
     mode: 0755
 
 - name: update telegraf config

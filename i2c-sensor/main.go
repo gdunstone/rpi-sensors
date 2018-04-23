@@ -15,6 +15,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"log"
 )
 
 var (
@@ -23,12 +24,13 @@ var (
 )
 
 func init() {
+	// if we dont do this, embd will fuck up our output by outputting to stdout
+	log.SetOutput(os.Stderr)
 	flag.StringVar(&stype, "sensor-type", "bmp180", "sensor type (bh1750fvi, bme280, bmp280, bmp085, bmp180, l3gd20, lsm303)")
 	flag.BoolVar(&pullUp, "pull-up", false, "use pull-up address, for when SDO is pulled up (connected to vddio)")
 }
 
 func formatOutput(sensorType string, values map[string]interface{}) {
-
 	keyvaluepairs := make([]string, 0)
 
 	for key, val := range values {
@@ -96,19 +98,17 @@ func main() {
 		temperature64 := sensor.Temperature(measurements)
 		values["temperature"] = temperature64
 		values["pressure"] = sensor.Pressure(measurements)
-		if stype == "bmp280"{
+		if stype == "bme280" {
 			// bmp280 doesnt have humidity
-			break
+
+			humidity64 := sensor.Humidity(measurements)
+			values["humidity"] = humidity64
+			es := 0.6108 * math.Exp(17.27*temperature64/(temperature64+237.3))
+			ea := humidity64 / 100 * es
+			// this equation returns a negative value (in kPa), which while technically correct,
+			// is invalid in this case because we are talking about a deficit.
+			values["vpd"] = (ea - es) * -1
 		}
-
-		humidity64 := sensor.Humidity(measurements)
-		values["humidity"] = humidity64
-		es := 0.6108 * math.Exp(17.27*temperature64/(temperature64+237.3))
-		ea := humidity64 / 100 * es
-		// this equation returns a negative value (in kPa), which while technically correct,
-		// is invalid in this case because we are talking about a deficit.
-		values["vpd"] = (ea - es) * -1
-
 	case "bmp085":
 		sensor := bmp085.New(bus)
 

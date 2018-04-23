@@ -1,0 +1,2 @@
+SUBSYSTEM=="i2c", ACTION=="add", PROGRAM="/bin/sh -c 'chmod -R 777 /dev/i2c*'"
+RUN+="/bin/sh -c 'chmod 777 /dev/i2c*'"
