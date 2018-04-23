@@ -1,5 +1,7 @@
 ## rpi-sensors
 
+[![Build Status](https://travis-ci.org/gdunstone/rpi-sensors.svg?branch=master)](https://travis-ci.org/gdunstone/rpi-sensors)
+
 This project is an attempt to modularise deployment of sensor monitoring software onto raspberry pis.
 
 It is primarily an ansible playbook to facilitate the distribution onto raspberry pis with [Arch Linux ARM](https://archlinuxarm.org/) installed on them.
