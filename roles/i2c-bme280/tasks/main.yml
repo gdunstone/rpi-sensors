@@ -1,2 +1,2 @@
-- include_tasks: bme280.yml
+- include_tasks: i2c-bme280.yml
   tags: bme280,sensors

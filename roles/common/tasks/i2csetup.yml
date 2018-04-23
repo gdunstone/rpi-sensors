@@ -13,12 +13,6 @@
   lineinfile:
     line: "{{ item }}"
     create: yes
-    path: /etc/modules.load.d/i2c.conf
+    path: /etc/modules-load.d/i2c.conf
   with_items: "{{ i2c_modules }}"
-
-- name: copy i2csensor program
-  copy:
-    src: i2c-sensor
-    dest: /usr/local/bin/i2c-sensor
-    mode: 0755
 

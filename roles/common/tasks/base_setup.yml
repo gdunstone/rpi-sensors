@@ -91,7 +91,7 @@
 
 - name: enable/start the timer
   systemd:
-    name: eyepi-capture.service
+    name: reboot_schedule.timer
     daemon_reload: yes
     enabled: yes
     masked: no

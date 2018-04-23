@@ -8,7 +8,11 @@
 
 - hosts: bme280
   roles:
-    - bme280
+    - i2c-bme280
+
+- hosts: bmp280
+  roles:
+    - i2c-bmp280
 
 - hosts: rainmeter
   roles:

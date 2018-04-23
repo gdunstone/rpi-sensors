@@ -7,19 +7,19 @@
 
 - name: download i2c-sensor program
   get_url:
-    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.2.1/i2c-sensor
+    url: https://github.com/gdunstone/rpi-sensors/releases/download/0.2.2/i2c-sensor
     dest: /usr/local/bin/dht-sensor
     mode: 0755
 
 - name: update telegraf config
   blockinfile:
     path: /etc/telegraf/telegraf.conf
-    marker: "# {mark} BME280 ANSIBLE MANAGED BLOCK"
+    marker: "# {mark} BMP280 ANSIBLE MANAGED BLOCK"
     block: |
-      # Read metrics from bme280
+      # Read metrics from bmp280
       [[inputs.exec]]
         commands = [
-          "/usr/local/bin/i2c-sensor -sensor-type bme280"
+          "/usr/local/bin/i2c-sensor -sensor-type bmp280"
         ]
         timeout = "15s"
         data_format = "influx"

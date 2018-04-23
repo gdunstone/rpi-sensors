@@ -1,0 +1,2 @@
+- include_tasks: i2c-bmp280.yml
+  tags: bmp280,sensors
