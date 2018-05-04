@@ -6,7 +6,7 @@
 # GC04 ansible_host=10.9.0.4
 # GC05 ansible_host=10.9.0.5
 # GC35 ansible_host=10.9.0.35
-GC36 ansible_host=192.168.1.95
+# GC36 ansible_host=192.168.1.95
 # GC37 ansible_host=10.9.0.37
 
 [rainmeter]
@@ -20,7 +20,7 @@ GC36 ansible_host=192.168.1.95
 # GC04 ansible_host=10.9.0.4
 # GC05 ansible_host=10.9.0.5
 # GC35 ansible_host=10.9.0.35
-GC36 ansible_host=192.168.1.95
+# GC36 ansible_host=192.168.1.95
 # GC37 ansible_host=10.9.0.37
 
 
@@ -33,7 +33,7 @@ GC36 ansible_host=192.168.1.95
 # GC05 ansible_host=10.9.0.5
 # GC35 ansible_host=10.9.0.35
 # GC36 ansible_host=192.168.1.95
-# GC37 ansible_host=10.9.0.37
+GC37 ansible_host=10.9.0.37
 
 [dht22]
 # TEST ansible_host=192.168.1.36
@@ -53,7 +53,7 @@ GC36 ansible_host=192.168.1.95
 # GC04 ansible_host=10.9.0.4 dslrs='{}'
 # GC05 ansible_host=10.9.0.5 dslrs='{"GC05L": "969bb172926a4a36ad7e37f9ee488773", "GC05R": "bf781c54dd2841f2b33c1a4d2074bd52"}'
 # GC35 ansible_host=10.9.0.35 dslrs='{"GC35L": "bc58dd2ec2af41ffa7bc02891a831223", "GC35R": "7ecd6ca539d842f8aad9673bbca0cddc"}'
-GC36 ansible_host=192.168.1.95 dslrs='{}'
+# GC36 ansible_host=192.168.1.95 dslrs='{}'
 # GC37 ansible_host=10.9.0.37 dslrs='{"GC37R-NIR-C02": "f27f2ce3e2224b87a2218a6cf83d4a2a", "GC37L-NIR-C01": "b4e63ebd8704d48a864101496b8fce31"}'
 
 

@@ -21,12 +21,21 @@
   shell: echo "Needs Install"
   register: version_check_result
 
+# it is very important to have versioning here, because get_url doesnt check for file differences or that 'force' is specified.
 - name: AUR | {{ pkg_name }} | download tarball
   when: version_check_result.changed
   get_url: >
     url='https://aur.archlinux.org{{ api_info.json.results.0.URLPath }}'
-    dest='{{source_dir}}/{{pkg_name}}{{api_info.json.results.0.Version}}'
+    dest='{{source_dir}}/{{pkg_name}}-{{api_info.json.results.0.Version}}.tar.gz'
+    force=yes
   register: aur_tarball
+
+- name: AUR | {{ pkg_name }} | rm directory
+  when: version_check_result.changed
+  file:
+    state: absent
+    path: '{{build_dir}}/{{pkg_name}}'
+  ignore_errors: yes
 
 - name: AUR | {{ pkg_name }} | upload tarball to host and extract it
   when: version_check_result.changed

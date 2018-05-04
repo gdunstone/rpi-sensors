@@ -9,6 +9,7 @@
   get_url:
     url: https://github.com/gdunstone/rpi-sensors/releases/download/0.2.3/i2c-sensor
     dest: /usr/local/bin/i2c-sensor
+    force: yes
     mode: 0755
 
 - name: update telegraf config
@@ -19,7 +20,7 @@
       # Read metrics from bme280
       [[inputs.exec]]
         commands = [
-          "/usr/local/bin/i2c-sensor -sensor-type bme280"
+          "/usr/local/bin/i2c-sensor -sensor-type bme280 -pull-up"
         ]
         timeout = "15s"
         data_format = "influx"
