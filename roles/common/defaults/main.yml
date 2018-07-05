@@ -19,24 +19,25 @@ packages_base:
   - lua-filesystem
   - lua
   - ncdu
-  - parallel
   - rsync
-  - screen
   - tar
   - tor
   - tree
   - zsh
   - wget
   - python
+  - python-numpy
   - python-pip
   - ipython
-  - glances
   - cmake
   - boost
 
-
+# without wayland, gtk2, and gtkglext opencv will not install or work as of 2018-05-17
 pacman_pkgs:
+  - gtk2
+  - gtkglext
   - gdbm
+  - wayland
   - opencv
   - python-cryptography
   - python-pycparser

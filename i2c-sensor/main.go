@@ -97,14 +97,29 @@ func main() {
 
 		temperature64 := sensor.Temperature(measurements)
 		values["temperature"] = temperature64
-		values["pressure"] = sensor.Pressure(measurements)
+		// pressure in hectopascals
+		pressure64 := sensor.Pressure(measurements)
+		values["pressure"] = pressure64
 		if stype == "bme280" {
 			// bmp280 doesnt have humidity
 
 			humidity64 := sensor.Humidity(measurements)
 			values["humidity"] = humidity64
-			es := 0.6108 * math.Exp(17.27*temperature64/(temperature64+237.3))
+			// saturated vapor pressure
+			es := 0.6108 * math.Exp(17.27 * temperature64 / (temperature64 + 237.3))
+
+			// actual vapor pressure
 			ea := humidity64 / 100 * es
+
+			// mixing ratio
+			//w := 621.97 * ea / ((pressure64/10) - ea)
+			// saturated mixing ratio
+			//ws := 621.97 * es / ((pressure64/10) - es)
+			// absolute humidity (in kg/m³)
+			ah := es / (461.5 * (temperature64 + 273.15))
+
+			// report it as g/m³
+			values["absolute_humidity"] = ah*1000
 			// this equation returns a negative value (in kPa), which while technically correct,
 			// is invalid in this case because we are talking about a deficit.
 			values["vpd"] = (ea - es) * -1

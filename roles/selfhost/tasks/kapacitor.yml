@@ -9,4 +9,4 @@
     name: kapacitor
     state: restarted
     enabled: yes
-  when: config.changed or app.changed
+  when: config.changed

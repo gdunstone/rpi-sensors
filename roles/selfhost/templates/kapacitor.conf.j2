@@ -34,7 +34,8 @@ default-retention-policy = ""
 [logging]
     # Destination for logs
     # Can be a path to a file or 'STDOUT', 'STDERR'.
-    file = "{{log_path}}/kapacitor/kapacitor.log"
+    # file = "/kapacitor/kapacitor.log"
+    file = "STDOUT"
     # Logging level can be one of:
     # DEBUG, INFO, WARN, ERROR, or OFF
     level = "INFO"
@@ -48,13 +49,13 @@ default-retention-policy = ""
   # DEPRECATED: This option is not needed for new installations.
   # It is only used to determine the location of the task.db file
   # for migrating to the new `storage` service.
-  dir = "{{storage_prefix}}/kapacitor/tasks"
+  dir = "/var/lib/kapacitor/tasks"
   # How often to snapshot running task state.
   snapshot-interval = "60s"
 
 [storage]
   # Where to store the Kapacitor boltdb database
-  boltdb = "{{storage_prefix}}/kapacitor/kapacitor.db"
+  boltdb = "/var/lib/kapacitor/kapacitor.db"
 
 # Multiple InfluxDB configurations can be defined.
 # Exactly one must be marked as the default.
@@ -66,7 +67,8 @@ default-retention-policy = ""
   enabled = true
   default = true
   name = "InfluxDB"
-  urls = ["localhost:8086"]
+  urls = ["http://localhost:8086"]
+  # urls = ["unix:///var/run/influxdb.sock", "http://localhost:8086"]
   username = "admin"
   password = "{{influxdb_admin_password}}"
   timeout = 0

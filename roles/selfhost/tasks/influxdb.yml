@@ -6,6 +6,12 @@
     influx_execute: "/usr/bin/influx -username admin -password {{influxdb_admin_password}} -execute"
   no_log: yes
 
+- name: upload influxdb service
+  copy:
+    src: influxdb.service
+    dest: /usr/lib/systemd/system/influxdb.service
+    force: yes
+
 - name: template influxdb config
   template:
     src: templates/influxdb.conf.j2

@@ -42,11 +42,12 @@
 
 - name: Upload password files
   copy:
-    path: "/home/{{item}}"
+    dest: "/home/{{item}}"
+    src: "{{item}}"
   with_items:
     - "influxdb_admin_password.txt"
     - "influxdb_write_password.txt"
-    - "chronograf.txt"
+    # - "chronograf.txt"
 
-- include_tasks: telegraf_self
+- include_tasks: telegraf_self.yml
   tags: telegraf,self,telegraf_self

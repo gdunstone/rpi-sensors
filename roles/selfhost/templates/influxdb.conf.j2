@@ -103,7 +103,7 @@
   realm = "InfluxDB"
 
   # Determines whether HTTP request logging is enable.d
-  log-enabled = true
+  log-enabled = false
 
   # Determines whether detailed write logging is enabled.
   # write-tracing = false
@@ -130,12 +130,13 @@
   # The maximum number of HTTP connections that may be open at once.  New connections that
   # would exceed this limit are dropped.  Setting this value to 0 disables the limit.
   # max-connection-limit = 0
-
+  
   # Enable http service over unix domain socket
-  # unix-socket-enabled = false
-
+  #unix-socket-enabled = true
+  #unix-socket-permissions = 0660
+  #unix-socket-group = influxdb
   # The path of the unix domain socket.
-  # bind-socket = "/var/run/influxdb.sock"
+  #bind-socket = "/var/run/influxdb.sock"
 
 [[udp]]
   # enabled = false
