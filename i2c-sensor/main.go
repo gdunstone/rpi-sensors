@@ -14,8 +14,10 @@ import (
 	"math"
 	"os"
 	"strings"
-	"time"
 	"log"
+	"sort"
+	"time"
+	"github.com/shawntoffel/darksky"
 )
 
 var (
@@ -30,27 +32,41 @@ func init() {
 	flag.BoolVar(&pullUp, "pull-up", false, "use pull-up address, for when SDO is pulled up (connected to vddio)")
 }
 
-func formatOutput(sensorType string, values map[string]interface{}) {
+func formatOutput(sensorType string, values map[string]interface{}, t int64) {
+
 	keyvaluepairs := make([]string, 0)
 
-	for key, val := range values {
+	keys := make([]string, 0)
+	for k, _ := range values {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		val := values[key]
 		switch v := val.(type) {
 		case int:
-			keyvaluepairs = append(keyvaluepairs, fmt.Sprintf("%s=%d", key, v))
+			keyvaluepairs = append(keyvaluepairs, fmt.Sprintf("%s=%di", key, v))
+		case darksky.Measurement:
+			keyvaluepairs = append(keyvaluepairs, fmt.Sprintf("%s=%f", key, float64(v)))
 		case float64:
 			keyvaluepairs = append(keyvaluepairs, fmt.Sprintf("%s=%f", key, v))
 		case float32:
 			keyvaluepairs = append(keyvaluepairs, fmt.Sprintf("%s=%f", key, v))
 		case string:
-			keyvaluepairs = append(keyvaluepairs, fmt.Sprintf("%s=%s", key, v))
+			if v == ""{
+				continue
+			}
+			keyvaluepairs = append(keyvaluepairs, fmt.Sprintf("%s=\"%s\"", key, v))
+		case bool:
+			keyvaluepairs = append(keyvaluepairs, fmt.Sprintf("%s=%t", key, v))
 		}
 	}
 	csv := strings.Join(keyvaluepairs, ",")
 	str := fmt.Sprintf("%s %s", sensorType, csv)
 	// add timestamp
-	str = fmt.Sprintf("%s %d", str, time.Now().UnixNano())
+	str = fmt.Sprintf("%s %d", str, t)
 	fmt.Fprintln(os.Stdout, str)
-	os.Exit(0)
 }
 
 func main() {
@@ -116,7 +132,7 @@ func main() {
 			// saturated mixing ratio
 			//ws := 621.97 * es / ((pressure64/10) - es)
 			// absolute humidity (in kg/m³)
-			ah := es / (461.5 * (temperature64 + 273.15))
+			ah := ea / (461.5 * (temperature64 + 273.15))
 
 			// report it as g/m³
 			values["absolute_humidity"] = ah*1000
@@ -159,5 +175,5 @@ func main() {
 		}
 		values["temperature"] = temperature
 	}
-	formatOutput(stype, values)
+	formatOutput(stype, values, time.Now().UnixNano())
 }
