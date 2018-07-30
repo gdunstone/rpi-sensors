@@ -63,7 +63,7 @@ func formatOutput(sensorType string, values map[string]interface{}, t int64) {
 		}
 	}
 	csv := strings.Join(keyvaluepairs, ",")
-	str := fmt.Sprintf("%s %s", sensorType, csv)
+	str := fmt.Sprintf("sensors,stype=%s %s", sensorType, csv)
 	// add timestamp
 	str = fmt.Sprintf("%s %d", str, t)
 	fmt.Fprintln(os.Stdout, str)
@@ -82,12 +82,12 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		values["temperature"] = temperature
+		values["temp_c"] = temperature
 		pressure, err := sensor.Pressure()
 		if err != nil {
 			panic(err)
 		}
-		values["pressure"] = pressure
+		values["pa_p"] = pressure
 		altitude, err := sensor.Altitude()
 		if err != nil {
 			panic(err)
@@ -112,33 +112,33 @@ func main() {
 		}
 
 		temperature64 := sensor.Temperature(measurements)
-		values["temperature"] = temperature64
+		values["temp_c"] = temperature64
 		// pressure in hectopascals
 		pressure64 := sensor.Pressure(measurements)
-		values["pressure"] = pressure64
+		values["pa_p"] = pressure64
 		if stype == "bme280" {
 			// bmp280 doesnt have humidity
 
 			humidity64 := sensor.Humidity(measurements)
-			values["humidity"] = humidity64
+			values["rh_pc"] = humidity64
 			// saturated vapor pressure
 			es := 0.6108 * math.Exp(17.27 * temperature64 / (temperature64 + 237.3))
-
+			values["es_kPa"] = es
 			// actual vapor pressure
 			ea := humidity64 / 100 * es
-
+			values["ea_kPa"] = ea
 			// mixing ratio
 			//w := 621.97 * ea / ((pressure64/10) - ea)
 			// saturated mixing ratio
 			//ws := 621.97 * es / ((pressure64/10) - es)
 			// absolute humidity (in kg/m³)
 			ah := ea / (461.5 * (temperature64 + 273.15))
-
+			
 			// report it as g/m³
-			values["absolute_humidity"] = ah*1000
+			values["ah_kgm3"] = ah
 			// this equation returns a negative value (in kPa), which while technically correct,
 			// is invalid in this case because we are talking about a deficit.
-			values["vpd"] = (ea - es) * -1
+			values["vpd_kgm3"] = (ea - es) * -1
 		}
 	case "bmp085":
 		sensor := bmp085.New(bus)
@@ -147,19 +147,19 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		values["pressure"] = pressure
+		values["pa_p"] = pressure
 		altitude, err := sensor.Altitude()
 		if err != nil {
 			panic(err)
 		}
-		values["altitude"] = altitude
+		values["alt_m"] = altitude
 	case "lsm303":
 		sensor := lsm303.New(bus)
 		heading, err := sensor.Heading()
 		if err != nil {
 			panic(err)
 		}
-		values["heading"] = heading
+		values["head_deg"] = heading
 	case "bh1750fvi":
 		sensor := bh1750fvi.New("H2", bus)
 		lux, err := sensor.Lighting()
@@ -173,7 +173,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		values["temperature"] = temperature
+		values["temp_c"] = temperature
 	}
 	formatOutput(stype, values, time.Now().UnixNano())
 }
