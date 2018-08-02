@@ -13,6 +13,7 @@ before_script:
   - go get github.com/d2r2/go-dht
   - go get github.com/aquarat/embd
   - go get periph.io/x/periph/.
+  - go get github.com/shawntoffel/darksky
   - go get github.com/golang/lint/golint
   - go get github.com/stretchr/testify
   - go get honnef.co/go/tools/cmd/megacheck

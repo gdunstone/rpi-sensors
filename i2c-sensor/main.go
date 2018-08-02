@@ -132,7 +132,8 @@ func main() {
 			// saturated mixing ratio
 			//ws := 621.97 * es / ((pressure64/10) - es)
 			// absolute humidity (in kg/m³)
-			ah := ea / (461.5 * (temperature64 + 273.15))
+			// this is
+			ah := ea / (461.5 * (temperature64 + 273.15))*1000
 
 			// report it as g/m³
 			values["absolute_humidity"] = ah*1000
