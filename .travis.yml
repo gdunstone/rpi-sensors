@@ -27,6 +27,7 @@ script:
   # - go build -o ./dht-sensor/dht-sensor ./dht-sensor/dht-sensor
   - GOOS=linux GOARCH=arm go build -o ./rain-sensor/rain-sensor ./rain-sensor
   - GOOS=linux GOARCH=arm go build -o ./i2c-sensor/i2c-sensor ./i2c-sensor
+  - GOOS=linux GOARCH=arm go build -o ./darksky/darksky ./darksky
   - "echo \"influxdb_password: changeme\" > roles/common/vars/vault.yml"
   - tar zfc ansible.tar.gz roles hosts main.yml
 
