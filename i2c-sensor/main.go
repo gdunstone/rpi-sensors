@@ -37,7 +37,7 @@ func formatOutput(sensorType string, values map[string]interface{}, t int64) {
 	keyvaluepairs := make([]string, 0)
 
 	keys := make([]string, 0)
-	for k, _ := range values {
+	for k := range values {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
