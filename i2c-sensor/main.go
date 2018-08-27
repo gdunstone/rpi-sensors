@@ -37,7 +37,7 @@ func formatOutput(sensorType string, values map[string]interface{}, t int64) {
 	keyvaluepairs := make([]string, 0)
 
 	keys := make([]string, 0)
-	for k, _ := range values {
+	for k := range values {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
@@ -137,7 +137,7 @@ func main() {
 			//ws := 621.97 * es / ((pressure64/10) - es)
 			// absolute humidity (in kg/m³)
 			ah := ea / (461.5 * (temperature64 + 273.15))
-			
+
 			// report it as g/m³
 			values["ah_kgm3"] = ah
 			// this equation returns a negative value (in kPa), which while technically correct,
