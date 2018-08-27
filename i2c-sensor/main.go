@@ -114,8 +114,12 @@ func main() {
 		temperature64 := sensor.Temperature(measurements)
 		values["temp_c"] = temperature64
 		// pressure in hectopascals
-		pressure64 := sensor.Pressure(measurements)
-		values["pa_p"] = pressure64
+		qfe := sensor.Pressure(measurements)
+		alt := 577.0
+		qnh := qfe * math.Pow((1.0 - 2.25577e-5 * alt), -5.25588)
+		values["pa_p"] = qnh
+		values["qfe_p"] = qfe
+
 		if stype == "bme280" {
 			// bmp280 doesnt have humidity
 
